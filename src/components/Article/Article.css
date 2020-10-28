@@ -1,0 +1,15 @@
+.Article {
+  background-color: aqua;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.Article--selected {
+  background-color: burlywood;
+}
+
+.Article__title {
+  font-weight: bold;
+  font-size: 120%;
+}
