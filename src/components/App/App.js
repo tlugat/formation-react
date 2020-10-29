@@ -27,13 +27,35 @@ function App() {
     setTitle('Page de liste');
   }
 
-  const [titleFilter, setTitleFilter] = useState('');
-  function handleChange(event) {
-    setTitleFilter(event.target.value);
+  // const [titleFilter, setTitleFilter] = useState('');
+  // function handleTitleChange(event) {
+  //   setTitleFilter(event.target.value);
+  // }
+
+  // const [categoryFilter, setCategoryFilter] = useState('');
+  // function handleCategoryChange(event) {
+  //   setCategoryFilter(event.target.value);
+  // }
+
+  const [filters, setFilters] = useState({
+    title: '',
+    category: '',
+    published: ''
+  });
+  function handleFilterChange(event) {
+    setFilters({
+      ...filters,
+      [event.target.name]: event.target.value
+    });
   }
 
   const filteredArticles = articles
-    .filter(art => art.title.includes(titleFilter));
+    .filter(art => art.title.includes(filters.title))
+    .filter(art => filters.category === '' ||
+      art.category === Number(filters.category))
+    .filter(art => filters.published === '' ||
+      (art.published === true && filters.published === 'published') ||
+      (art.published === false && filters.published === 'draft'));
 
   return (
     <div>
@@ -41,8 +63,11 @@ function App() {
       <button onClick={handleClick}>change title</button>
       <Resize/>
       <Filters
-        title={titleFilter}
-        handleChange={handleChange}
+        categories={categories}
+        category={filters.category}
+        published={filters.published}
+        title={filters.title}
+        handleFilterChange={handleFilterChange}
       />
       <List
         articles={filteredArticles}
