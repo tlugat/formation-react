@@ -3,24 +3,16 @@ import { useState } from 'react';
 import useArticles from '../../hooks/useArticles/useArticles';
 import useCategories from '../../hooks/useCategories/useCategories';
 
+import Cart from '../Cart/Cart';
+import Container from '../Container/Container';
 import Filters from '../Filters/Filters';
 import List from '../List/List';
-import CartItem from '../CartItem/CartItem';
 import Resize from '../Resize/Resize';
 import Title from '../Title/Title';
 
 function App() {
   const articles = useArticles();
   const categories = useCategories();
-
-  const pdt1 = {
-    price: 12,
-    name: 'foo'
-  };
-  const pdt2 = {
-    price: 42,
-    name: 'bar'
-  };
 
   const [title, setTitle] = useState('Homepage');
   function handleClick() {
@@ -62,19 +54,24 @@ function App() {
       <Title title={title} />
       <button onClick={handleClick}>change title</button>
       <Resize/>
-      <Filters
-        categories={categories}
-        category={filters.category}
-        published={filters.published}
-        title={filters.title}
-        handleFilterChange={handleFilterChange}
-      />
-      <List
-        articles={filteredArticles}
-        categories={categories}
-      />
-      <CartItem product={pdt1} />
-      <CartItem product={pdt2} />
+
+      <Container>
+        <Filters
+          categories={categories}
+          category={filters.category}
+          published={filters.published}
+          title={filters.title}
+          handleFilterChange={handleFilterChange}
+        />
+        <List
+          articles={filteredArticles}
+          categories={categories}
+        />
+      </Container>
+      
+      <Container>
+        <Cart/>
+      </Container>
     </div>
   );
 }

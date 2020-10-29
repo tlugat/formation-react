@@ -1,3 +1,5 @@
+import { useRef, useEffect } from 'react';
+
 function Filters(props) {
   const {
     categories,
@@ -6,6 +8,11 @@ function Filters(props) {
     title,
     handleFilterChange
   } = props;
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [inputRef]);
 
   return (
     <div>
@@ -14,6 +21,7 @@ function Filters(props) {
         type="text"
         value={title}
         onChange={handleFilterChange}
+        ref={inputRef}
       />
       <select
         name="category"
