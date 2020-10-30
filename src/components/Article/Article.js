@@ -11,9 +11,9 @@ function Article(props) {
   // const published = article.published;
   // const title = article.title;
 
-  let [ selected, setSelected ] = useState(false);
   const category = categories.find(cat => cat.id === categoryId);
 
+  const [ selected, setSelected ] = useState(false);
   function handleClick() {
     setSelected(prevState => !prevState);
   }
