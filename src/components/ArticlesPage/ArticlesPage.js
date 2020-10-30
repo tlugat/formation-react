@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { deleteArticle, getArticles } from '../../services/articles/articles';
+
 import useArticles from '../../hooks/useArticles/useArticles';
 import useCategories from '../../hooks/useCategories/useCategories';
 
@@ -12,7 +14,7 @@ import Resize from '../Resize/Resize';
 import Title from '../Title/Title';
 
 function ArticlesPage() {
-  const articles = useArticles();
+  const [articles, setArticles] = useArticles();
   const categories = useCategories();
 
   const [filters, setFilters] = useState({
@@ -25,6 +27,21 @@ function ArticlesPage() {
       ...filters,
       [event.target.name]: event.target.value
     });
+  }
+
+  function handleArticleDeleted(id) {
+    deleteArticle(id)
+      .then(() => {
+        const data = articles.filter(article => article.id !== id);
+        setArticles(data);
+      });
+
+    // deleteArticle(id)
+    //   .catch(() =>
+    //     getArticles().then(data => setArticles(data))
+    //   );
+    // const data = articles.filter(article => article.id !== id);
+    // setArticles(data);
   }
 
   const filteredArticles = articles
@@ -52,6 +69,7 @@ function ArticlesPage() {
         <List
           articles={filteredArticles}
           categories={categories}
+          deleteArticle={handleArticleDeleted}
         />
       </Container>
       

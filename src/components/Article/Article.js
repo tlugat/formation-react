@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import './Article.css';
 
 function Article(props) {
-  const { article, categories } = props;
+  const { article, categories, updateSelected, selected, deleteArticle } = props;
 
   const { category: categoryId, published, title, id } = article;
   // const categoryId = article.category;
@@ -16,9 +16,14 @@ function Article(props) {
     cat => cat.id === categoryId
   );
 
-  const [ selected, setSelected ] = useState(false);
+  // const [ selected, setSelected ] = useState(false);
   function handleClick() {
-    setSelected(prevState => !prevState);
+    updateSelected(id);
+  }
+
+  function handleDelete(event) {
+    event.stopPropagation();
+    deleteArticle(id);
   }
 
   return (
@@ -30,6 +35,7 @@ function Article(props) {
       <div>{category ? category.title : categoryId}</div>
       <div>{published ? 'Published' : 'Draft'}</div>
       <div><Link to={`/article/${id}`}>edit</Link></div>
+      <div><button onClick={handleDelete}>delete</button></div>
     </div>
   );
 }

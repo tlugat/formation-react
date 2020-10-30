@@ -39,3 +39,10 @@ export function updateArticle(article) {
     })
     .then(response => response.json());
 }
+
+export function deleteArticle(id) {
+  return fetch(
+    `http://localhost:3000/articles/${id}`,
+    { method: 'DELETE' }
+  );
+}
