@@ -1,13 +1,15 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
+
+import categoriesContext from '../../contexts/categories';
 
 function Filters(props) {
   const {
-    categories,
     category,
     published,
     title,
     handleFilterChange
   } = props;
+  const categories = useContext(categoriesContext);
   const inputRef = useRef(null);
 
   useEffect(() => {

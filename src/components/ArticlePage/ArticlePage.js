@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+
+import categoriesContext from '../../contexts/categories';
 
 import {
   createArticle,
   getArticle,
   updateArticle
 } from '../../services/articles/articles';
-import useCategories from '../../hooks/useCategories/useCategories';
 
 import Title from '../Title/Title';
 
@@ -14,7 +15,7 @@ function ArticlePage(props) {
   const id = props.match.params.id;
   // const { match: { params: { id } } } = props;
 
-  const categories = useCategories();
+  const categories = useContext(categoriesContext);
   const [article, setArticle] = useState({
     category: '',
     title: ''
@@ -46,8 +47,8 @@ function ArticlePage(props) {
   }
 
   return (
-    <div>
-      <Title title="Add new article" />
+    <>
+      <Title title={id ? `Edit article (${id})` : 'Add new article'} />
       <form onSubmit={handleSubmit}>
         <div>
           <label>
@@ -80,7 +81,7 @@ function ArticlePage(props) {
           <input type="submit"/>
         </div>
       </form>
-    </div>
+    </>
   );
 }
 

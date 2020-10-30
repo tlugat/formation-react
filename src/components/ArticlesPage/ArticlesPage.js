@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { deleteArticle, getArticles } from '../../services/articles/articles';
+import { deleteArticle } from '../../services/articles/articles';
 
 import useArticles from '../../hooks/useArticles/useArticles';
-import useCategories from '../../hooks/useCategories/useCategories';
 
-import Cart from '../Cart/Cart';
 import Container from '../Container/Container';
 import Filters from '../Filters/Filters';
 import List from '../List/List';
@@ -15,7 +13,6 @@ import Title from '../Title/Title';
 
 function ArticlesPage() {
   const [articles, setArticles] = useArticles();
-  const categories = useCategories();
 
   const [filters, setFilters] = useState({
     title: '',
@@ -53,14 +50,13 @@ function ArticlesPage() {
       (art.published === false && filters.published === 'draft'));
 
   return (
-    <div>
+    <>
       <Title title="Homepage" />
       <Link to="/article">Add new article</Link>
       <Resize/>
 
       <Container>
         <Filters
-          categories={categories}
           category={filters.category}
           published={filters.published}
           title={filters.title}
@@ -68,15 +64,10 @@ function ArticlesPage() {
         />
         <List
           articles={filteredArticles}
-          categories={categories}
           deleteArticle={handleArticleDeleted}
         />
       </Container>
-      
-      <Container>
-        <Cart/>
-      </Container>
-    </div>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Article from '../Article/Article';
 
 function List(props) {
-  const { articles, categories, deleteArticle } = props;
+  const { articles, deleteArticle } = props;
   const [checked, setChecked] = useState(false);
   // const [selectedArticles, setSelectedArticles] = useState({});
   const [selectedArticles, setSelectedArticles] = useState(new Map());
@@ -27,7 +27,6 @@ function List(props) {
     <div>
       {articles.map((art) => <Article
         article={art}
-        categories={categories}
         key={art.id}
         // selected={Boolean(selectedArticles[art.id])}
         selected={Boolean(selectedArticles.get(art.id))}
