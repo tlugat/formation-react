@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import Cell from '../Cell/Cell';
+
 import './TicTacToe.css';
 
 function TicTacToe() {
@@ -10,6 +12,10 @@ function TicTacToe() {
     [null, null, null]
   ]);
 
+  const winner = detectWin(board);
+  const win = Boolean(winner);
+  const full = detectFull(board);
+
   function detectWin(board) {
     if (board[0][0] === board[0][1] && board[0][0] === board[0][2]) {
       return board[0][0];
@@ -17,15 +23,21 @@ function TicTacToe() {
     return null;
   }
 
-  function handleClick(event) {
-    const { col, line } = event.target.dataset;
-    const cloneBoard = [...board];
-    // const boardLine = cloneBoard[line];
-    // const newboardLine = [...boardLine];
-    // newboardLine[col] = currentPlayer;
-    // cloneBoard[line] = newboardLine;
-    cloneBoard[line][col] = currentPlayer;
-    setBoard(cloneBoard);
+  function detectFull(board) {
+    return board.every(line => line.every(col => col !== null));
+  }
+
+  function handleClick(line, col) {
+    if (win || board[line][col] !== null) {
+      return;
+    }
+    const newBoard = board.map((l, i) => {
+      if (i === Number(line)) {
+        return l.map((c, j) => j === Number(col) ? currentPlayer : c);
+      }
+      return l;
+    });
+    setBoard(newBoard);
     setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
   }
 
@@ -38,33 +50,31 @@ function TicTacToe() {
     ]);
   }
 
-  const winner = detectWin(board);
-  const win = Boolean(winner);
-
-  return <div className="TicTacToe">
-    {board.map((line, i) => (
-      <div className="TicTacToe_line">
-        {line.map((col, j) => (
-          <button
-            className="TicTacToe__cell"
-            type="button"
-            onClick={handleClick}
-            data-col={j}
-            data-line={i}
-          >
-            {col ? col : '\xa0'}
-          </button>
-        ))}
-      </div>
-    ))}
-    {!win && <div className="TicTacToe_line">Player: {currentPlayer}</div>}
-    {win && <div className="TicTacToe_line">Player {winner} win the game</div>}
-    {win && (
-      <div className="TicTacToe_line">
-        <button type="button" onClick={handleRestart}>Restart</button>
-      </div>
-    )}
-  </div>;
+  return (
+    <div className="TicTacToe">
+      {board.map((line, i) => (
+        <div className="TicTacToe_line" key={i}>
+          {line.map((col, j) => (
+            <Cell
+              key={j}
+              onClick={handleClick}
+              lineIndex={i}
+              colIndex={j}
+              value={col}
+            />
+          ))}
+        </div>
+      ))}
+      {!win && !full && <div className="TicTacToe_line">Player: {currentPlayer}</div>}
+      {win && <div className="TicTacToe_line">Player {winner} win the game</div>}
+      {!win && full && <div className="TicTacToe_line">Draw</div>}
+      {(win || full) && (
+        <div className="TicTacToe_line">
+          <button type="button" onClick={handleRestart}>Restart</button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default TicTacToe;
