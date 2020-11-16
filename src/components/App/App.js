@@ -8,6 +8,7 @@ import ArticlesPage from '../ArticlesPage/ArticlesPage';
 import ArticlePage from '../ArticlePage/ArticlePage';
 import Cart from '../Cart/Cart';
 import Header from '../Header/Header';
+import TicTacToe from '../TicTacToe/TicTacToe';
 
 function App() {
   const categories = useCategories();
@@ -35,6 +36,11 @@ function App() {
             exact
             path="/cart"
             component={Cart}
+          />
+          <Route
+            exact
+            path="/tictactoe"
+            component={TicTacToe}
           />
           <Redirect to="/" />
         </Switch>

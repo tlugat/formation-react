@@ -44,6 +44,10 @@ function ArticlePage(props) {
       ...article,
       [event.target.name]: event.target.value
     });
+    ////////////////////////
+    // const cloneArticle = {...article};
+    // cloneArticle[event.target.name] = event.target.value;
+    // setArticle(cloneArticle);
   }
 
   return (
